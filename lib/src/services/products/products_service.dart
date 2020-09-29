@@ -4,12 +4,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ProductService {
-  static Future<List<Product>> getPhotos() async {
+  static Future<List<Product>> getProducts() async {
     try {
-      final response = await http.get(environment['apiUrl'] +
-          "https://jsonplaceholder.typicode.com/photos");
+      final response = await http.get(environment['apiUrl'] + "/products");
       if (response.statusCode == 200) {
-        List<Product> list = parsePhotos(response.body);
+        List<Product> list = parseProducts(response.body);
         return list;
       } else {
         throw Exception("Error");
@@ -20,7 +19,7 @@ class ProductService {
   }
 
   // Parse the JSON response and return list of Product Objects //
-  static List<Product> parsePhotos(String responseBody) {
+  static List<Product> parseProducts(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<Product>((json) => Product.fromJson(json)).toList();
   }
