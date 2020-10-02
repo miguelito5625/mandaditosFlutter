@@ -3,6 +3,7 @@ import 'package:mandaditos/src/pages/contactPage.dart';
 import 'package:mandaditos/src/pages/eventPage.dart';
 import 'package:mandaditos/src/pages/homePage.dart';
 import 'package:mandaditos/src/pages/notificationPage.dart';
+import 'package:mandaditos/src/pages/products/shoppingCartPage.dart';
 import 'package:mandaditos/src/pages/profilePage.dart';
 
 class pageRoutes {
@@ -11,4 +12,5 @@ class pageRoutes {
   static const String event = eventPage.routeName;
   static const String profile = profilePage.routeName;
   static const String notification = notificationPage.routeName;
+  static const String shoppingCart = shoppingCartPage.routeName;
 }

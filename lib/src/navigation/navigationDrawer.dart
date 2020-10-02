@@ -74,6 +74,19 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title
         title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
+        actions: [
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/shoppingCartPage');
+                },
+                child: Icon(
+                  Icons.shopping_cart,
+                  size: 26.0,
+                ),
+              ))
+        ],
       ),
       drawer: new Drawer(
         child: new ListView(

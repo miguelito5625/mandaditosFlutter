@@ -23,20 +23,16 @@ class homePage extends StatelessWidget {
                   staggeredTileBuilder: (int index) => StaggeredTile.fit(1),
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CardProduct(
-                      id: snapshot.data[index].id.toString(),
-                      thumbnailUrl: snapshot.data[index].urlMiniaturaImagen,
-                      url: snapshot.data[index].urlImagen,
-                      productName: snapshot.data[index].nombre,
-                      price: snapshot.data[index].precio.toString(),
-                    );
+                    return CardProduct(product: snapshot.data[index]);
                   });
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
 
             // By default, show a loading spinner.
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ));
   }

@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mandaditos/src/classes/product_class.dart';
 import 'package:mandaditos/src/pages/productDetailsPage.dart';
 
 class CardProduct extends StatelessWidget {
-  final String id;
-  final String productName;
-  final String price;
-  final String thumbnailUrl;
-  final String url;
-  const CardProduct(
-      {Key key,
-      this.id,
-      this.productName,
-      this.price,
-      this.thumbnailUrl,
-      this.url})
-      : super(key: key);
+  final Product product;
+  const CardProduct({Key key, this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      clipBehavior: Clip.antiAlias,
+      // clipBehavior: Clip.antiAlias,
       child: Padding(
           padding: EdgeInsets.all(10.0),
           child: Column(
@@ -28,7 +18,9 @@ class CardProduct extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 18.0 / 11.0,
                 child: GestureDetector(
-                  child: Hero(tag: id, child: Image.network(thumbnailUrl)),
+                  child: Hero(
+                      tag: product.id.toString(),
+                      child: Image.network(product.urlMiniaturaImagen)),
                   onTap: () {
                     Navigator.of(context).push(
                       PageRouteBuilder(
@@ -36,11 +28,7 @@ class CardProduct extends StatelessWidget {
                         pageBuilder: (BuildContext context,
                             Animation<double> animation,
                             Animation<double> secondaryAnimation) {
-                          return ProductDatailsPage(
-                            heroTag: id,
-                            url: url,
-                            productName: productName,
-                          );
+                          return ProductDatailsPage(product: product);
                         },
                         transitionsBuilder: (BuildContext context,
                             Animation<double> animation,
@@ -61,9 +49,9 @@ class CardProduct extends StatelessWidget {
               SizedBox(
                 height: 10.0,
               ),
-              Text(productName),
+              Text(product.nombre),
               SizedBox(height: 8.0),
-              Text(price)
+              Text('Q${product.precio}')
             ],
           )),
     );
