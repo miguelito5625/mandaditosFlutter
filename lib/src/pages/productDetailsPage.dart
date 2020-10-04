@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mandaditos/src/classes/product_class.dart';
 import 'package:mandaditos/src/navigation/navigationDrawer.dart';
+import 'package:mandaditos/src/providers/products_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProductDatailsPage extends StatelessWidget {
   static const String routeName = '/productDatailsPage';
@@ -10,6 +12,8 @@ class ProductDatailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productsProvider = Provider.of<ProductsProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(product.nombre),
@@ -41,6 +45,8 @@ class ProductDatailsPage extends StatelessWidget {
           builder: (context) => FloatingActionButton.extended(
               onPressed: () {
                 // Add your onPressed code here!
+                productsProvider.products = product;
+
                 final snackBar = SnackBar(
                     backgroundColor: Colors.green,
                     duration: Duration(milliseconds: 800),

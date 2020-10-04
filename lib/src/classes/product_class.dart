@@ -6,13 +6,15 @@ class Product {
   String precio;
   String urlImagen;
   String urlMiniaturaImagen;
+  int cantidad;
 
   Product(
       {this.id,
       this.nombre,
       this.precio,
       this.urlImagen,
-      this.urlMiniaturaImagen});
+      this.urlMiniaturaImagen,
+      this.cantidad});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
