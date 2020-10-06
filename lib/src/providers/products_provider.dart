@@ -3,56 +3,69 @@ import 'package:mandaditos/src/classes/product_class.dart';
 
 class ProductsProvider extends ChangeNotifier {
   List<Product> _productos = [];
+  String _total = '0.00';
+
+  get total {
+    return _total;
+  }
 
   get products {
     return _productos;
   }
 
+  calcularTotal() {
+    double total =
+        _productos.fold(0, (acc, cur) => acc + double.parse(cur.subTotal));
+    _total = total.toStringAsFixed(2);
+  }
+
   set products(Product product) {
-    if (this._productos.contains(product)) {
-      int index =
-          this._productos.indexWhere((element) => element.id == product.id);
-      if (this._productos[index].cantidad < 50) {
-        this._productos[index].cantidad++;
-        this._productos[index].subTotal =
-            (double.parse(product.precio) * this._productos[index].cantidad)
+    if (_productos.contains(product)) {
+      int index = _productos.indexWhere((element) => element.id == product.id);
+      if (_productos[index].cantidad < 50) {
+        _productos[index].cantidad++;
+        _productos[index].subTotal =
+            (double.parse(product.precio) * _productos[index].cantidad)
                 .toStringAsFixed(2);
       }
+      calcularTotal();
       notifyListeners();
       return;
     }
     product.cantidad = 1;
     product.subTotal = product.precio;
-    this._productos.add(product);
+    _productos.add(product);
+    calcularTotal();
     notifyListeners();
   }
 
   set restarItemCarrito(int id) {
-    int index = this._productos.indexWhere((element) => element.id == id);
-    if (this._productos[index].cantidad > 1) {
-      this._productos[index].cantidad--;
-      this._productos[index].subTotal =
-          (double.parse(this._productos[index].precio) *
-                  this._productos[index].cantidad)
+    int index = _productos.indexWhere((element) => element.id == id);
+    if (_productos[index].cantidad > 1) {
+      _productos[index].cantidad--;
+      _productos[index].subTotal =
+          (double.parse(_productos[index].precio) * _productos[index].cantidad)
               .toStringAsFixed(2);
     }
+    calcularTotal();
     notifyListeners();
   }
 
   set sumarItemCarrito(int id) {
-    int index = this._productos.indexWhere((element) => element.id == id);
-    if (this._productos[index].cantidad < 50) {
-      this._productos[index].cantidad++;
-      this._productos[index].subTotal =
-          (double.parse(this._productos[index].precio) *
-                  this._productos[index].cantidad)
+    int index = _productos.indexWhere((element) => element.id == id);
+    if (_productos[index].cantidad < 50) {
+      _productos[index].cantidad++;
+      _productos[index].subTotal =
+          (double.parse(_productos[index].precio) * _productos[index].cantidad)
               .toStringAsFixed(2);
     }
+    calcularTotal();
     notifyListeners();
   }
 
   set eliminarItemCarrito(int id) {
-    this._productos.removeWhere((element) => element.id == id);
+    _productos.removeWhere((element) => element.id == id);
+    calcularTotal();
     notifyListeners();
   }
 }
