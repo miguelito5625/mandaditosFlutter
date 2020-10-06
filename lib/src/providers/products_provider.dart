@@ -10,16 +10,49 @@ class ProductsProvider extends ChangeNotifier {
 
   set products(Product product) {
     if (this._productos.contains(product)) {
-      for (var i = 0; i < this._productos.length; i++) {
-        if (this._productos[i].id == product.id) {
-          this._productos[i].cantidad++;
-        }
+      int index =
+          this._productos.indexWhere((element) => element.id == product.id);
+      if (this._productos[index].cantidad < 50) {
+        this._productos[index].cantidad++;
+        this._productos[index].subTotal =
+            (double.parse(product.precio) * this._productos[index].cantidad)
+                .toStringAsFixed(2);
       }
       notifyListeners();
       return;
     }
     product.cantidad = 1;
+    product.subTotal = product.precio;
     this._productos.add(product);
+    notifyListeners();
+  }
+
+  set restarItemCarrito(int id) {
+    int index = this._productos.indexWhere((element) => element.id == id);
+    if (this._productos[index].cantidad > 1) {
+      this._productos[index].cantidad--;
+      this._productos[index].subTotal =
+          (double.parse(this._productos[index].precio) *
+                  this._productos[index].cantidad)
+              .toStringAsFixed(2);
+    }
+    notifyListeners();
+  }
+
+  set sumarItemCarrito(int id) {
+    int index = this._productos.indexWhere((element) => element.id == id);
+    if (this._productos[index].cantidad < 50) {
+      this._productos[index].cantidad++;
+      this._productos[index].subTotal =
+          (double.parse(this._productos[index].precio) *
+                  this._productos[index].cantidad)
+              .toStringAsFixed(2);
+    }
+    notifyListeners();
+  }
+
+  set eliminarItemCarrito(int id) {
+    this._productos.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 }
